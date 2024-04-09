@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, useDisclosure, useToast } from "@chakra-ui/react";
+import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, useDisclosure, useToast } from "@chakra-ui/react";
 import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 
 const API_URL = "https://superb-harmony-3876e2c3fe.strapiapp.com/api/prompts";
@@ -161,7 +161,7 @@ const Index = () => {
             </FormControl>
             <FormControl>
               <FormLabel>Prompt</FormLabel>
-              <Input value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="Enter prompt" />
+              <Textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="Enter prompt" />
             </FormControl>
           </ModalBody>
           <ModalFooter>
