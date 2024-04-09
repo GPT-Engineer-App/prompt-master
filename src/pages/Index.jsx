@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, useDisclosure, useToast, IconButton } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
-import { FaPlus, FaEdit, FaThumbtack, FaChevronUp, FaChevronDown } from "react-icons/fa";
+import { FaPlus, FaEdit, FaThumbtack, FaChevronUp, FaChevronDown, FaCopy } from "react-icons/fa";
 
 const API_URL = "https://superb-harmony-3876e2c3fe.strapiapp.com/api/prompts";
 
@@ -172,7 +172,28 @@ const Index = () => {
                       <Heading size="md" mb={2}>
                         Prompt
                       </Heading>
-                      <Text whiteSpace="pre-wrap">{prompt.attributes.prompt}</Text>
+                      <Box position="relative" borderWidth={1} borderRadius="md" p={2}>
+                        <IconButton
+                          icon={<FaCopy />}
+                          size="sm"
+                          position="absolute"
+                          top={2}
+                          right={2}
+                          onClick={() => {
+                            navigator.clipboard.writeText(prompt.attributes.prompt);
+                            toast({
+                              title: "Copied to clipboard",
+                              status: "success",
+                              duration: 2000,
+                              isClosable: true,
+                            });
+                          }}
+                          aria-label="Copy to Clipboard"
+                        />
+                        <Text whiteSpace="pre-wrap" fontFamily="monospace">
+                          {prompt.attributes.prompt}
+                        </Text>
+                      </Box>
                     </>
                   )}
                 </CardBody>
