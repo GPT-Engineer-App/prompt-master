@@ -9,6 +9,7 @@ const Index = () => {
   const [prompts, setPrompts] = useState([]);
   const [name, setName] = useState("");
   const [prompt, setPrompt] = useState("");
+  const [prerequisites, setPrerequisites] = useState("");
   const [editingPrompt, setEditingPrompt] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -38,6 +39,7 @@ const Index = () => {
           data: {
             name,
             prompt,
+            prerequisites,
             pinned: false,
           },
         }),
@@ -69,6 +71,7 @@ const Index = () => {
           data: {
             name,
             prompt,
+            prerequisites,
             pinned: editingPrompt.attributes.pinned,
           },
         }),
@@ -94,6 +97,7 @@ const Index = () => {
     setEditingPrompt(prompt);
     setName(prompt.attributes.name);
     setPrompt(prompt.attributes.prompt);
+    setPrerequisites(prompt.attributes.prerequisites || "");
     onOpen();
   };
 
@@ -145,6 +149,14 @@ const Index = () => {
                 </CardHeader>
                 <CardBody>
                   <Text whiteSpace="pre-wrap">{prompt.attributes.prompt}</Text>
+                  {prompt.attributes.prerequisites && (
+                    <Box mt={4}>
+                      <Heading size="sm" mb={2}>
+                        Prerequisites
+                      </Heading>
+                      <Text whiteSpace="pre-wrap">{prompt.attributes.prerequisites}</Text>
+                    </Box>
+                  )}
                   <HStack mt={4}>
                     <Button leftIcon={<FaEdit />} size="sm" onClick={() => openEditModal(prompt)}>
                       Edit
@@ -165,9 +177,13 @@ const Index = () => {
                 <FormLabel>Name</FormLabel>
                 <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter prompt name" />
               </FormControl>
-              <FormControl>
+              <FormControl mb={4}>
                 <FormLabel>Prompt</FormLabel>
                 <Textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="Enter prompt" />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Prerequisites</FormLabel>
+                <Textarea value={prerequisites} onChange={(e) => setPrerequisites(e.target.value)} placeholder="Enter prerequisites" />
               </FormControl>
             </ModalBody>
             <ModalFooter>
