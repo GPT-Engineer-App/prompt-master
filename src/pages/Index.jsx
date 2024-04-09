@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, useDisclosure, useToast, IconButton } from "@chakra-ui/react";
+import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, useDisclosure, useToast, IconButton, Flex } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
 import { FaPlus, FaEdit, FaThumbtack, FaChevronUp, FaChevronDown, FaCopy } from "react-icons/fa";
@@ -148,17 +148,17 @@ const Index = () => {
             .sort((a, b) => (a.attributes.pinned === b.attributes.pinned ? 0 : a.attributes.pinned ? -1 : 1))
             .map((prompt) => (
               <Card key={prompt.id}>
-                <CardHeader display="flex" justifyContent="space-between" alignItems="center">
-                  <Heading size="md">{prompt.attributes.name}</Heading>
-                  <HStack>
-                    <IconButton icon={<FaEdit />} size="sm" onClick={() => openEditModal(prompt)} aria-label="Edit Prompt" />
-                    <IconButton icon={<FaThumbtack />} size="sm" onClick={() => togglePin(prompt)} colorScheme={prompt.attributes.pinned ? "blue" : "gray"} aria-label="Pin Prompt" />
-                  </HStack>
+                <CardHeader>
+                  <Flex justifyContent="space-between" alignItems="center">
+                    <Heading size="md">{prompt.attributes.name}</Heading>
+                    <HStack>
+                      <IconButton icon={expandedPrompt === prompt.id ? <FaChevronUp /> : <FaChevronDown />} size="sm" onClick={() => setExpandedPrompt(expandedPrompt === prompt.id ? null : prompt.id)} aria-label={expandedPrompt === prompt.id ? "Hide Details" : "Show Details"} />
+                      <IconButton icon={<FaEdit />} size="sm" onClick={() => openEditModal(prompt)} aria-label="Edit Prompt" />
+                      <IconButton icon={<FaThumbtack />} size="sm" onClick={() => togglePin(prompt)} colorScheme={prompt.attributes.pinned ? "blue" : "gray"} aria-label="Pin Prompt" />
+                    </HStack>
+                  </Flex>
                 </CardHeader>
                 <CardBody>
-                  <Button size="sm" onClick={() => setExpandedPrompt(expandedPrompt === prompt.id ? null : prompt.id)} mb={2} rightIcon={expandedPrompt === prompt.id ? <FaChevronUp /> : <FaChevronDown />}>
-                    {expandedPrompt === prompt.id ? "Hide Details" : "Show Details"}
-                  </Button>
                   {expandedPrompt === prompt.id && (
                     <>
                       {prompt.attributes.prerequisites && (
