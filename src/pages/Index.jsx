@@ -87,23 +87,6 @@ const Index = () => {
     }
   };
 
-  const deletePrompt = async (id) => {
-    try {
-      await fetch(`${API_URL}/${id}`, {
-        method: "DELETE",
-      });
-      setPrompts(prompts.filter((p) => p.id !== id));
-      toast({
-        title: "Prompt deleted",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
-    } catch (error) {
-      console.error("Error deleting prompt:", error);
-    }
-  };
-
   const openEditModal = (prompt) => {
     setEditingPrompt(prompt);
     setName(prompt.attributes.name);
@@ -140,9 +123,6 @@ const Index = () => {
               <HStack mt={4}>
                 <Button leftIcon={<FaEdit />} size="sm" onClick={() => openEditModal(prompt)}>
                   Edit
-                </Button>
-                <Button leftIcon={<FaTrash />} size="sm" colorScheme="red" onClick={() => deletePrompt(prompt.id)}>
-                  Delete
                 </Button>
               </HStack>
             </CardBody>
