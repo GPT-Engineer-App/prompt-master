@@ -161,15 +161,18 @@ const Index = () => {
                   </Button>
                   {expandedPrompt === prompt.id && (
                     <>
-                      <Text whiteSpace="pre-wrap">{prompt.attributes.prompt}</Text>
                       {prompt.attributes.prerequisites && (
-                        <Box mt={4}>
-                          <Heading size="sm" mb={2}>
+                        <Box mb={4}>
+                          <Heading size="md" mb={2}>
                             Prerequisites
                           </Heading>
                           <Text whiteSpace="pre-wrap">{prompt.attributes.prerequisites}</Text>
                         </Box>
                       )}
+                      <Heading size="md" mb={2}>
+                        Prompt
+                      </Heading>
+                      <Text whiteSpace="pre-wrap">{prompt.attributes.prompt}</Text>
                     </>
                   )}
                 </CardBody>
