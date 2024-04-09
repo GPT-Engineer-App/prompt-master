@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, useDisclosure, useToast, IconButton } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
-import { FaPlus, FaEdit, FaThumbtack } from "react-icons/fa";
+import { FaPlus, FaEdit, FaThumbtack, FaChevronUp, FaChevronDown } from "react-icons/fa";
 
 const API_URL = "https://superb-harmony-3876e2c3fe.strapiapp.com/api/prompts";
 
@@ -148,11 +148,15 @@ const Index = () => {
             .sort((a, b) => (a.attributes.pinned === b.attributes.pinned ? 0 : a.attributes.pinned ? -1 : 1))
             .map((prompt) => (
               <Card key={prompt.id}>
-                <CardHeader>
+                <CardHeader display="flex" justifyContent="space-between" alignItems="center">
                   <Heading size="md">{prompt.attributes.name}</Heading>
+                  <HStack>
+                    <IconButton icon={<FaEdit />} size="sm" onClick={() => openEditModal(prompt)} aria-label="Edit Prompt" />
+                    <IconButton icon={<FaThumbtack />} size="sm" onClick={() => togglePin(prompt)} colorScheme={prompt.attributes.pinned ? "blue" : "gray"} aria-label="Pin Prompt" />
+                  </HStack>
                 </CardHeader>
                 <CardBody>
-                  <Button size="sm" onClick={() => setExpandedPrompt(expandedPrompt === prompt.id ? null : prompt.id)} mb={2}>
+                  <Button size="sm" onClick={() => setExpandedPrompt(expandedPrompt === prompt.id ? null : prompt.id)} mb={2} rightIcon={expandedPrompt === prompt.id ? <FaChevronUp /> : <FaChevronDown />}>
                     {expandedPrompt === prompt.id ? "Hide Details" : "Show Details"}
                   </Button>
                   {expandedPrompt === prompt.id && (
@@ -168,12 +172,6 @@ const Index = () => {
                       )}
                     </>
                   )}
-                  <HStack mt={4}>
-                    <Button leftIcon={<FaEdit />} size="sm" onClick={() => openEditModal(prompt)}>
-                      Edit
-                    </Button>
-                    <IconButton icon={<FaThumbtack />} size="sm" onClick={() => togglePin(prompt)} colorScheme={prompt.attributes.pinned ? "blue" : "gray"} />
-                  </HStack>
                 </CardBody>
               </Card>
             ))}
