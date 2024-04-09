@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, useDisclosure, useToast } from "@chakra-ui/react";
-import { FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, useDisclosure, useToast, IconButton } from "@chakra-ui/react";
+import { FaPlus, FaEdit, FaThumbtack } from "react-icons/fa";
 
 const API_URL = "https://superb-harmony-3876e2c3fe.strapiapp.com/api/prompts";
 
@@ -37,6 +37,7 @@ const Index = () => {
           data: {
             name,
             prompt,
+            pinned: false,
           },
         }),
       });
@@ -67,6 +68,7 @@ const Index = () => {
           data: {
             name,
             prompt,
+            pinned: editingPrompt.attributes.pinned,
           },
         }),
       });
@@ -94,6 +96,26 @@ const Index = () => {
     onOpen();
   };
 
+  const togglePin = async (prompt) => {
+    try {
+      const response = await fetch(`${API_URL}/${prompt.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          data: {
+            pinned: !prompt.attributes.pinned,
+          },
+        }),
+      });
+      const data = await response.json();
+      setPrompts(prompts.map((p) => (p.id === prompt.id ? data.data : p)));
+    } catch (error) {
+      console.error("Error toggling pin:", error);
+    }
+  };
+
   return (
     <Box p={4}>
       <Heading as="h1" size="xl" mb={4}>
@@ -113,21 +135,24 @@ const Index = () => {
         New Prompt
       </Button>
       <VStack spacing={4} align="stretch">
-        {prompts.map((prompt) => (
-          <Card key={prompt.id}>
-            <CardHeader>
-              <Heading size="md">{prompt.attributes.name}</Heading>
-            </CardHeader>
-            <CardBody>
-              <Text>{prompt.attributes.prompt}</Text>
-              <HStack mt={4}>
-                <Button leftIcon={<FaEdit />} size="sm" onClick={() => openEditModal(prompt)}>
-                  Edit
-                </Button>
-              </HStack>
-            </CardBody>
-          </Card>
-        ))}
+        {[...prompts]
+          .sort((a, b) => (a.attributes.pinned === b.attributes.pinned ? 0 : a.attributes.pinned ? -1 : 1))
+          .map((prompt) => (
+            <Card key={prompt.id}>
+              <CardHeader>
+                <Heading size="md">{prompt.attributes.name}</Heading>
+              </CardHeader>
+              <CardBody>
+                <Text>{prompt.attributes.prompt}</Text>
+                <HStack mt={4}>
+                  <Button leftIcon={<FaEdit />} size="sm" onClick={() => openEditModal(prompt)}>
+                    Edit
+                  </Button>
+                  <IconButton icon={<FaThumbtack />} size="sm" onClick={() => togglePin(prompt)} colorScheme={prompt.attributes.pinned ? "blue" : "gray"} />
+                </HStack>
+              </CardBody>
+            </Card>
+          ))}
       </VStack>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
