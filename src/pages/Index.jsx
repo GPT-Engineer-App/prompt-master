@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, useDisclosure, useToast, IconButton } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 import { FaPlus, FaEdit, FaThumbtack } from "react-icons/fa";
 
 const API_URL = "https://superb-harmony-3876e2c3fe.strapiapp.com/api/prompts";
@@ -124,6 +125,7 @@ const Index = () => {
   return (
     <Box>
       <Navbar />
+      <Header />
       <Box p={4}>
         <Box display="flex" justifyContent="flex-end" mb={4}>
           <Button
