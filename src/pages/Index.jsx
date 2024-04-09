@@ -121,66 +121,63 @@ const Index = () => {
     <Box>
       <Navbar />
       <Box p={4}>
-      <Heading as="h1" size="xl" mb={4}>
-        Prompt Manager
-      </Heading>
-      <Button
-        leftIcon={<FaPlus />}
-        colorScheme="blue"
-        mb={4}
-        onClick={() => {
-          setEditingPrompt(null);
-          setName("");
-          setPrompt("");
-          onOpen();
-        }}
-      >
-        New Prompt
-      </Button>
-      <VStack spacing={4} align="stretch">
-        {[...prompts]
-          .sort((a, b) => (a.attributes.pinned === b.attributes.pinned ? 0 : a.attributes.pinned ? -1 : 1))
-          .map((prompt) => (
-            <Card key={prompt.id}>
-              <CardHeader>
-                <Heading size="md">{prompt.attributes.name}</Heading>
-              </CardHeader>
-              <CardBody>
-                <Text>{prompt.attributes.prompt}</Text>
-                <HStack mt={4}>
-                  <Button leftIcon={<FaEdit />} size="sm" onClick={() => openEditModal(prompt)}>
-                    Edit
-                  </Button>
-                  <IconButton icon={<FaThumbtack />} size="sm" onClick={() => togglePin(prompt)} colorScheme={prompt.attributes.pinned ? "blue" : "gray"} />
-                </HStack>
-              </CardBody>
-            </Card>
-          ))}
-      </VStack>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>{editingPrompt ? "Edit Prompt" : "Create Prompt"}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl mb={4}>
-              <FormLabel>Name</FormLabel>
-              <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter prompt name" />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Prompt</FormLabel>
-              <Textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="Enter prompt" />
-            </FormControl>
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={editingPrompt ? updatePrompt : createPrompt}>
-              {editingPrompt ? "Update" : "Create"}
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </Box>
+        <Button
+          leftIcon={<FaPlus />}
+          colorScheme="blue"
+          mb={4}
+          onClick={() => {
+            setEditingPrompt(null);
+            setName("");
+            setPrompt("");
+            onOpen();
+          }}
+        >
+          New Prompt
+        </Button>
+        <VStack spacing={4} align="stretch">
+          {[...prompts]
+            .sort((a, b) => (a.attributes.pinned === b.attributes.pinned ? 0 : a.attributes.pinned ? -1 : 1))
+            .map((prompt) => (
+              <Card key={prompt.id}>
+                <CardHeader>
+                  <Heading size="md">{prompt.attributes.name}</Heading>
+                </CardHeader>
+                <CardBody>
+                  <Text>{prompt.attributes.prompt}</Text>
+                  <HStack mt={4}>
+                    <Button leftIcon={<FaEdit />} size="sm" onClick={() => openEditModal(prompt)}>
+                      Edit
+                    </Button>
+                    <IconButton icon={<FaThumbtack />} size="sm" onClick={() => togglePin(prompt)} colorScheme={prompt.attributes.pinned ? "blue" : "gray"} />
+                  </HStack>
+                </CardBody>
+              </Card>
+            ))}
+        </VStack>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>{editingPrompt ? "Edit Prompt" : "Create Prompt"}</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <FormControl mb={4}>
+                <FormLabel>Name</FormLabel>
+                <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter prompt name" />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Prompt</FormLabel>
+                <Textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="Enter prompt" />
+              </FormControl>
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="blue" mr={3} onClick={editingPrompt ? updatePrompt : createPrompt}>
+                {editingPrompt ? "Update" : "Create"}
+              </Button>
+              <Button onClick={onClose}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Box>
     </Box>
   );
 };
