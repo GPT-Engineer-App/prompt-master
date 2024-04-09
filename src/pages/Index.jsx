@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, useDisclosure, useToast, IconButton } from "@chakra-ui/react";
+import Navbar from "../components/Navbar";
 import { FaPlus, FaEdit, FaThumbtack } from "react-icons/fa";
 
 const API_URL = "https://superb-harmony-3876e2c3fe.strapiapp.com/api/prompts";
@@ -117,7 +118,9 @@ const Index = () => {
   };
 
   return (
-    <Box p={4}>
+    <Box>
+      <Navbar />
+      <Box p={4}>
       <Heading as="h1" size="xl" mb={4}>
         Prompt Manager
       </Heading>
@@ -177,6 +180,7 @@ const Index = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
+    </Box>
     </Box>
   );
 };
