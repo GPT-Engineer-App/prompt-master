@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, useDisclosure, useToast, IconButton, Flex } from "@chakra-ui/react";
+import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, useDisclosure, useToast, IconButton, Flex, CheckboxGroup, Stack, Checkbox, Tag } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
 import { FaPlus, FaEdit, FaThumbtack, FaChevronUp, FaChevronDown, FaCopy } from "react-icons/fa";
@@ -13,6 +13,7 @@ const Index = () => {
   const [prerequisites, setPrerequisites] = useState("");
   const [editingPrompt, setEditingPrompt] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
+  const [testedModels, setTestedModels] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
@@ -40,6 +41,7 @@ const Index = () => {
           prompt,
           prerequisites,
           pinned: false,
+          testedModels,
         }),
       );
       if (previewImage) {
@@ -75,6 +77,7 @@ const Index = () => {
           prompt,
           prerequisites,
           pinned: editingPrompt.attributes.pinned,
+          testedModels,
         }),
       );
       if (previewImage) {
@@ -106,6 +109,7 @@ const Index = () => {
     setName(prompt.attributes.name);
     setPrompt(prompt.attributes.prompt);
     setPrerequisites(prompt.attributes.prerequisites || "");
+    setTestedModels(prompt.attributes.testedModels || []);
     onOpen();
   };
 
@@ -184,6 +188,18 @@ const Index = () => {
                           <Image src={prompt.attributes.preview.data.attributes.url} alt="Preview" />
                         </Box>
                       )}
+                      {prompt.attributes.testedModels && prompt.attributes.testedModels.length > 0 && (
+                        <Box mb={4}>
+                          <Heading size="md" mb={2}>
+                            Tested Models
+                          </Heading>
+                          <HStack>
+                            {prompt.attributes.testedModels.map((model) => (
+                              <Tag key={model}>{model}</Tag>
+                            ))}
+                          </HStack>
+                        </Box>
+                      )}
                       <Heading size="md" mb={2}>
                         Prompt
                       </Heading>
@@ -236,6 +252,17 @@ const Index = () => {
               <FormControl>
                 <FormLabel>Preview Image</FormLabel>
                 <Input type="file" accept="image/*" onChange={(e) => setPreviewImage(e.target.files[0])} />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Tested Models</FormLabel>
+                <CheckboxGroup value={testedModels} onChange={setTestedModels}>
+                  <Stack spacing={2}>
+                    <Checkbox value="claude-3-opus-20240229">claude-3-opus-20240229</Checkbox>
+                    <Checkbox value="claude-3-haiku-20240307">claude-3-haiku-20240307</Checkbox>
+                    <Checkbox value="gpt-4-1106-preview">gpt-4-1106-preview</Checkbox>
+                    <Checkbox value="gpt-3.5-turbo">gpt-3.5-turbo</Checkbox>
+                  </Stack>
+                </CheckboxGroup>
               </FormControl>
             </ModalBody>
             <ModalFooter>
