@@ -121,19 +121,20 @@ const Index = () => {
     <Box>
       <Navbar />
       <Box p={4}>
-        <Button
-          leftIcon={<FaPlus />}
-          colorScheme="blue"
-          mb={4}
-          onClick={() => {
-            setEditingPrompt(null);
-            setName("");
-            setPrompt("");
-            onOpen();
-          }}
-        >
-          New Prompt
-        </Button>
+        <Box display="flex" justifyContent="flex-end" mb={4}>
+          <Button
+            leftIcon={<FaPlus />}
+            colorScheme="blue"
+            onClick={() => {
+              setEditingPrompt(null);
+              setName("");
+              setPrompt("");
+              onOpen();
+            }}
+          >
+            New Prompt
+          </Button>
+        </Box>
         <VStack spacing={4} align="stretch">
           {[...prompts]
             .sort((a, b) => (a.attributes.pinned === b.attributes.pinned ? 0 : a.attributes.pinned ? -1 : 1))
