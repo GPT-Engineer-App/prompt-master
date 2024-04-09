@@ -12,6 +12,7 @@ const Index = () => {
   const [prompt, setPrompt] = useState("");
   const [prerequisites, setPrerequisites] = useState("");
   const [editingPrompt, setEditingPrompt] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
@@ -31,19 +32,22 @@ const Index = () => {
 
   const createPrompt = async () => {
     try {
+      const formData = new FormData();
+      formData.append(
+        "data",
+        JSON.stringify({
+          name,
+          prompt,
+          prerequisites,
+          pinned: false,
+        }),
+      );
+      if (previewImage) {
+        formData.append("files.preview", previewImage);
+      }
       const response = await fetch(API_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          data: {
-            name,
-            prompt,
-            prerequisites,
-            pinned: false,
-          },
-        }),
+        body: formData,
       });
       const data = await response.json();
       setPrompts([...prompts, data.data]);
@@ -63,19 +67,22 @@ const Index = () => {
 
   const updatePrompt = async () => {
     try {
+      const formData = new FormData();
+      formData.append(
+        "data",
+        JSON.stringify({
+          name,
+          prompt,
+          prerequisites,
+          pinned: editingPrompt.attributes.pinned,
+        }),
+      );
+      if (previewImage) {
+        formData.append("files.preview", previewImage);
+      }
       const response = await fetch(`${API_URL}/${editingPrompt.id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          data: {
-            name,
-            prompt,
-            prerequisites,
-            pinned: editingPrompt.attributes.pinned,
-          },
-        }),
+        body: formData,
       });
       const data = await response.json();
       setPrompts(prompts.map((p) => (p.id === editingPrompt.id ? data.data : p)));
@@ -169,6 +176,14 @@ const Index = () => {
                           <Text whiteSpace="pre-wrap">{prompt.attributes.prerequisites}</Text>
                         </Box>
                       )}
+                      {prompt.attributes.preview?.data?.attributes?.url && (
+                        <Box mb={4}>
+                          <Heading size="md" mb={2}>
+                            Preview
+                          </Heading>
+                          <Image src={prompt.attributes.preview.data.attributes.url} alt="Preview" />
+                        </Box>
+                      )}
                       <Heading size="md" mb={2}>
                         Prompt
                       </Heading>
@@ -217,6 +232,10 @@ const Index = () => {
               <FormControl>
                 <FormLabel>Prerequisites</FormLabel>
                 <Textarea value={prerequisites} onChange={(e) => setPrerequisites(e.target.value)} placeholder="Enter prerequisites" />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Preview Image</FormLabel>
+                <Input type="file" accept="image/*" onChange={(e) => setPreviewImage(e.target.files[0])} />
               </FormControl>
             </ModalBody>
             <ModalFooter>
