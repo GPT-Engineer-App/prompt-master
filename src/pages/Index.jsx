@@ -144,7 +144,7 @@ const Index = () => {
                   <Heading size="md">{prompt.attributes.name}</Heading>
                 </CardHeader>
                 <CardBody>
-                  <Text>{prompt.attributes.prompt}</Text>
+                  <Text whiteSpace="pre-wrap">{prompt.attributes.prompt}</Text>
                   <HStack mt={4}>
                     <Button leftIcon={<FaEdit />} size="sm" onClick={() => openEditModal(prompt)}>
                       Edit
