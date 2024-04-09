@@ -122,6 +122,8 @@ const Index = () => {
     }
   };
 
+  const [expandedPrompt, setExpandedPrompt] = useState(null);
+
   return (
     <Box>
       <Navbar />
@@ -150,14 +152,21 @@ const Index = () => {
                   <Heading size="md">{prompt.attributes.name}</Heading>
                 </CardHeader>
                 <CardBody>
-                  <Text whiteSpace="pre-wrap">{prompt.attributes.prompt}</Text>
-                  {prompt.attributes.prerequisites && (
-                    <Box mt={4}>
-                      <Heading size="sm" mb={2}>
-                        Prerequisites
-                      </Heading>
-                      <Text whiteSpace="pre-wrap">{prompt.attributes.prerequisites}</Text>
-                    </Box>
+                  <Button size="sm" onClick={() => setExpandedPrompt(expandedPrompt === prompt.id ? null : prompt.id)} mb={2}>
+                    {expandedPrompt === prompt.id ? "Hide Details" : "Show Details"}
+                  </Button>
+                  {expandedPrompt === prompt.id && (
+                    <>
+                      <Text whiteSpace="pre-wrap">{prompt.attributes.prompt}</Text>
+                      {prompt.attributes.prerequisites && (
+                        <Box mt={4}>
+                          <Heading size="sm" mb={2}>
+                            Prerequisites
+                          </Heading>
+                          <Text whiteSpace="pre-wrap">{prompt.attributes.prerequisites}</Text>
+                        </Box>
+                      )}
+                    </>
                   )}
                   <HStack mt={4}>
                     <Button leftIcon={<FaEdit />} size="sm" onClick={() => openEditModal(prompt)}>
