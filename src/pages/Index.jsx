@@ -201,6 +201,14 @@ const Index = () => {
                           </HStack>
                         </Box>
                       )}
+                      {prompt.attributes.preview?.data?.attributes?.url && (
+                        <Box mb={4}>
+                          <Heading size="md" mb={2}>
+                            Preview
+                          </Heading>
+                          <Image src={prompt.attributes.preview.data.attributes.url} alt="Preview" />
+                        </Box>
+                      )}
                       <Heading size="md" mb={2}>
                         Prompt
                       </Heading>
