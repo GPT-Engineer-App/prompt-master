@@ -47,7 +47,7 @@ const Index = () => {
       if (previewImage) {
         formData.append("files.preview", previewImage);
       }
-      const response = await fetch(API_URL, {
+      const response = await fetch("https://superb-harmony-3876e2c3fe.strapiapp.com/api/prompts", {
         method: "POST",
         body: formData,
       });
@@ -83,7 +83,7 @@ const Index = () => {
       if (previewImage) {
         formData.append("files.preview", previewImage);
       }
-      const response = await fetch(`${API_URL}/${editingPrompt.id}`, {
+      const response = await fetch(`https://superb-harmony-3876e2c3fe.strapiapp.com/api/prompts/${editingPrompt.id}`, {
         method: "PUT",
         body: formData,
       });
@@ -115,7 +115,7 @@ const Index = () => {
 
   const togglePin = async (prompt) => {
     try {
-      const response = await fetch(`${API_URL}/${prompt.id}`, {
+      const response = await fetch(`https://superb-harmony-3876e2c3fe.strapiapp.com/api/prompts/${prompt.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
