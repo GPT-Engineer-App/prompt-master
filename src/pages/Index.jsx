@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, useDisclosure, useToast, IconButton, Flex, CheckboxGroup, Stack, Checkbox, Tag } from "@chakra-ui/react";
+import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, useDisclosure, useToast, IconButton, Flex, CheckboxGroup, Stack, Checkbox, Tag, Image } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
 import { FaPlus, FaEdit, FaThumbtack, FaChevronUp, FaChevronDown, FaCopy } from "react-icons/fa";
