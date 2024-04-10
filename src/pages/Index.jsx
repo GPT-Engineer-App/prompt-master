@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, useDisclosure, useToast, IconButton, Flex, CheckboxGroup, Stack, Checkbox, Tag, Image } from "@chakra-ui/react";
+import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, useDisclosure, useToast, IconButton, Flex, CheckboxGroup, Stack, Checkbox, Tag, Image, Grid } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
 import { FaPlus, FaEdit, FaThumbtack, FaChevronUp, FaChevronDown, FaCopy } from "react-icons/fa";
@@ -229,12 +229,43 @@ const Index = () => {
                         </Text>
                       </Box>
                       {prompt.attributes.preview?.data?.attributes?.url && (
-                        <Box mt={4}>
-                          <Heading size="md" mb={2}>
-                            Preview
-                          </Heading>
-                          <Image src={prompt.attributes.preview.data.attributes.url} alt="Preview" />
-                        </Box>
+                        <Grid templateColumns={["1fr", "1fr", "2fr 1fr"]} gap={4} mt={4}>
+                          <Box>
+                            <Heading size="md" mb={2}>
+                              Prompt
+                            </Heading>
+                            <Box position="relative" borderWidth={1} borderRadius="md" p={2}>
+                              <IconButton
+                                icon={<FaCopy />}
+                                size="sm"
+                                position="absolute"
+                                top={2}
+                                right={2}
+                                onClick={() => {
+                                  navigator.clipboard.writeText(prompt.attributes.prompt);
+                                  toast({
+                                    title: "Copied to clipboard",
+                                    status: "success",
+                                    duration: 2000,
+                                    isClosable: true,
+                                  });
+                                }}
+                                aria-label="Copy to Clipboard"
+                              />
+                              <Text whiteSpace="pre-wrap" fontFamily="monospace">
+                                {prompt.attributes.prompt}
+                              </Text>
+                            </Box>
+                          </Box>
+                          {prompt.attributes.preview?.data?.attributes?.url && (
+                            <Box>
+                              <Heading size="md" mb={2}>
+                                Preview
+                              </Heading>
+                              <Image src={prompt.attributes.preview.data.attributes.url} alt="Preview" />
+                            </Box>
+                          )}
+                        </Grid>
                       )}
                     </>
                   )}
