@@ -83,12 +83,13 @@ const Index = () => {
       if (previewImage) {
         formData.append("files.preview", previewImage);
       }
-      const response = await fetch(`https://superb-harmony-3876e2c3fe.strapiapp.com/api/prompts/${editingPrompt.id}`, {
+      const response = await fetch(`https://superb-harmony-3876e2c3fe.strapiapp.com/api/prompts/${editingPrompt.id}?populate=*`, {
         method: "PUT",
         body: formData,
       });
       const data = await response.json();
       setPrompts(prompts.map((p) => (p.id === editingPrompt.id ? data.data : p)));
+      setPreviewImage(null);
       setEditingPrompt(null);
       setName("");
       setPrompt("");
