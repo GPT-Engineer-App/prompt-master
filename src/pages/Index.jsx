@@ -181,14 +181,6 @@ const Index = () => {
                           <Text whiteSpace="pre-wrap">{prompt.attributes.prerequisites}</Text>
                         </Box>
                       )}
-                      {prompt.attributes.preview?.data?.attributes?.url && (
-                        <Box mb={4}>
-                          <Heading size="md" mb={2}>
-                            Preview
-                          </Heading>
-                          <Image src={prompt.attributes.preview.data.attributes.url} alt="Preview" />
-                        </Box>
-                      )}
                       {prompt.attributes.testedModels && prompt.attributes.testedModels.length > 0 && (
                         <Box mb={4}>
                           <Heading size="md" mb={2}>
@@ -226,6 +218,14 @@ const Index = () => {
                           {prompt.attributes.prompt}
                         </Text>
                       </Box>
+                      {prompt.attributes.preview?.data?.attributes?.url && (
+                        <Box mt={4}>
+                          <Heading size="md" mb={2}>
+                            Preview
+                          </Heading>
+                          <Image src={prompt.attributes.preview.data.attributes.url} alt="Preview" />
+                        </Box>
+                      )}
                     </>
                   )}
                 </CardBody>
