@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import Header from "../components/Header";
 import { FaPlus, FaEdit, FaThumbtack, FaChevronUp, FaChevronDown, FaCopy } from "react-icons/fa";
 
-const API_URL = "https://superb-harmony-3876e2c3fe.strapiapp.com/api/prompts";
+const API_URL = "https://superb-harmony-3876e2c3fe.strapiapp.com/api/prompts?populate=*";
 
 const Index = () => {
   const [prompts, setPrompts] = useState([]);
@@ -83,7 +83,7 @@ const Index = () => {
       if (previewImage) {
         formData.append("files.preview", previewImage);
       }
-      const response = await fetch(`${API_URL}/${editingPrompt.id}`, {
+      const response = await fetch(`${API_URL}/${editingPrompt.id}?populate=*`, {
         method: "PUT",
         body: formData,
       });
@@ -115,7 +115,7 @@ const Index = () => {
 
   const togglePin = async (prompt) => {
     try {
-      const response = await fetch(`${API_URL}/${prompt.id}`, {
+      const response = await fetch(`${API_URL}/${prompt.id}?populate=*`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
