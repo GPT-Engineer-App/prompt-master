@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import Header from "../components/Header";
 import { FaPlus, FaEdit, FaThumbtack, FaChevronUp, FaChevronDown, FaCopy } from "react-icons/fa";
 
-const API_URL = "https://superb-harmony-3876e2c3fe.strapiapp.com/api/prompts";
+const API_URL = "https://superb-harmony-3876e2c3fe.strapiapp.com/api/prompts?populate=*";
 
 const Index = () => {
   const [prompts, setPrompts] = useState([]);
