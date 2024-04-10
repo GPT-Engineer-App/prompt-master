@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, useDisclosure, useToast, IconButton, Flex, CheckboxGroup, Stack, Checkbox, Tag, Image } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
@@ -136,25 +137,30 @@ const Index = () => {
 
   const [expandedPrompt, setExpandedPrompt] = useState(null);
 
+  const location = useLocation();
+  const isEditable = new URLSearchParams(location.search).get("editable") === "true";
+
   return (
     <Box>
       <Navbar />
       <Header />
       <Box p={4}>
-        <Box display="flex" justifyContent="flex-end" mb={4}>
-          <Button
-            leftIcon={<FaPlus />}
-            colorScheme="blue"
-            onClick={() => {
-              setEditingPrompt(null);
-              setName("");
-              setPrompt("");
-              onOpen();
-            }}
-          >
-            New Prompt
-          </Button>
-        </Box>
+        {isEditable && (
+          <Box display="flex" justifyContent="flex-end" mb={4}>
+            <Button
+              leftIcon={<FaPlus />}
+              colorScheme="blue"
+              onClick={() => {
+                setEditingPrompt(null);
+                setName("");
+                setPrompt("");
+                onOpen();
+              }}
+            >
+              New Prompt
+            </Button>
+          </Box>
+        )}
         <VStack spacing={4} align="stretch">
           {[...prompts]
             .sort((a, b) => (a.attributes.pinned === b.attributes.pinned ? 0 : a.attributes.pinned ? -1 : 1))
@@ -165,8 +171,12 @@ const Index = () => {
                     <Heading size="md">{prompt.attributes.name}</Heading>
                     <HStack>
                       <IconButton icon={expandedPrompt === prompt.id ? <FaChevronUp /> : <FaChevronDown />} size="sm" onClick={() => setExpandedPrompt(expandedPrompt === prompt.id ? null : prompt.id)} aria-label={expandedPrompt === prompt.id ? "Hide Details" : "Show Details"} />
-                      <IconButton icon={<FaEdit />} size="sm" onClick={() => openEditModal(prompt)} aria-label="Edit Prompt" />
-                      <IconButton icon={<FaThumbtack />} size="sm" onClick={() => togglePin(prompt)} colorScheme={prompt.attributes.pinned ? "blue" : "gray"} aria-label="Pin Prompt" />
+                      {isEditable && (
+                        <>
+                          <IconButton icon={<FaEdit />} size="sm" onClick={() => openEditModal(prompt)} aria-label="Edit Prompt" />
+                          <IconButton icon={<FaThumbtack />} size="sm" onClick={() => togglePin(prompt)} colorScheme={prompt.attributes.pinned ? "blue" : "gray"} aria-label="Pin Prompt" />
+                        </>
+                      )}
                     </HStack>
                   </Flex>
                 </CardHeader>
