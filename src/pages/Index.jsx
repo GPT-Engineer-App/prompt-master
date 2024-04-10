@@ -228,15 +228,64 @@ const Index = () => {
                           {prompt.attributes.prompt}
                         </Text>
                       </Box>
-                      
-                          {prompt.attributes.preview?.data?.attributes?.url && (
-                        <Box mt={4}>
+
+                      <Grid templateColumns="1fr 1fr" gap={4} display={{ base: "block", md: "grid" }}>
+                        <Box>
+                          {prompt.attributes.prerequisites && (
+                            <Box mb={4}>
+                              <Heading size="md" mb={2}>
+                                Prerequisites
+                              </Heading>
+                              <Text whiteSpace="pre-wrap">{prompt.attributes.prerequisites}</Text>
+                            </Box>
+                          )}
+                          {prompt.attributes.testedModels && prompt.attributes.testedModels.length > 0 && (
+                            <Box mb={4}>
+                              <Heading size="md" mb={2}>
+                                Tested Models
+                              </Heading>
+                              <HStack>
+                                {prompt.attributes.testedModels.map((model) => (
+                                  <Tag key={model}>{model}</Tag>
+                                ))}
+                              </HStack>
+                            </Box>
+                          )}
                           <Heading size="md" mb={2}>
-                            Preview
+                            Prompt
                           </Heading>
-                          <Image src={prompt.attributes.preview.data.attributes.url} alt="Preview" />
+                          <Box position="relative" borderWidth={1} borderRadius="md" p={2}>
+                            <IconButton
+                              icon={<FaCopy />}
+                              size="sm"
+                              position="absolute"
+                              top={2}
+                              right={2}
+                              onClick={() => {
+                                navigator.clipboard.writeText(prompt.attributes.prompt);
+                                toast({
+                                  title: "Copied to clipboard",
+                                  status: "success",
+                                  duration: 2000,
+                                  isClosable: true,
+                                });
+                              }}
+                              aria-label="Copy to Clipboard"
+                            />
+                            <Text whiteSpace="pre-wrap" fontFamily="monospace">
+                              {prompt.attributes.prompt}
+                            </Text>
+                          </Box>
                         </Box>
-                      )}
+                        {prompt.attributes.preview?.data?.attributes?.url && (
+                          <Box>
+                            <Heading size="md" mb={2}>
+                              Preview
+                            </Heading>
+                            <Image src={prompt.attributes.preview.data.attributes.url} alt="Preview" />
+                          </Box>
+                        )}
+                      </Grid>
                     </>
                   )}
                 </CardBody>
