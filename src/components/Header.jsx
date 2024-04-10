@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <Box p={8} textAlign="center">
       <Heading as="h2" size="xl" mb={4}></Heading>
-      <Text fontSize="xl">This is a place to share reliable prompts that can serve as great starting points for your projects. Some prompts might have prerequisites, so keep that in mind when exploring and using them.</Text>
+      <Text fontSize="xl">This site curates prompts that are great for getting high-quality initial generations to kick off your projects. Keep in mind that some prompts may have prerequisites or work best with certain models.</Text>
     </Box>
   );
 };
