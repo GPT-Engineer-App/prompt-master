@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { Box, Button, Heading, Text, VStack, HStack, Card, CardHeader, CardBody, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, useDisclosure, useToast, IconButton, Flex, CheckboxGroup, Stack, Checkbox, Tag, Image, Grid } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
@@ -147,18 +147,23 @@ const Index = () => {
       <Box p={4}>
         {isEditable && (
           <Box display="flex" justifyContent="flex-end" mb={4}>
-            <Button
-              leftIcon={<FaPlus />}
-              colorScheme="blue"
-              onClick={() => {
-                setEditingPrompt(null);
-                setName("");
-                setPrompt("");
-                onOpen();
-              }}
-            >
-              New Prompt
-            </Button>
+            <HStack spacing={4}>
+              <Button
+                leftIcon={<FaPlus />}
+                colorScheme="blue"
+                onClick={() => {
+                  setEditingPrompt(null);
+                  setName("");
+                  setPrompt("");
+                  onOpen();
+                }}
+              >
+                New Prompt
+              </Button>
+              <Link to="https://superb-harmony-3876e2c3fe.strapiapp.com/admin">
+                <Button colorScheme="teal">Strapi Dashboard</Button>
+              </Link>
+            </HStack>
           </Box>
         )}
         <VStack spacing={4} align="stretch">
